@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import './App.css';
 import WeatherWidget from './components/WeatherWidget/WeatherWidget';
 import MapWidget from "./components/MapWidget/MapWidget";
+import ThreeWordsWidget from "./components/ThreeWordsWidget/ThreeWordsWidget";
 
 function App() {
   const [latitude, setLatitude] = useState();
@@ -24,6 +25,7 @@ function App() {
       <h1>Hello</h1>
       <WeatherWidget latitude={latitude} longitude={longitude}/>
       <ThreeWordsWidget latitude={latitude} longitude={longitude}/>
+      <MapWidget  latitude={latitude} longitude={longitude}/>
     </div>
   );
 }
