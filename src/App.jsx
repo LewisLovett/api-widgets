@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import './App.scss';
 import WeatherWidget from './components/WeatherWidget/WeatherWidget';
+import WordOfDayWidget from "./components/WordOfDayWidget/WordOfDayWidget";
 import ThreeWordsContainer from "./containers/ThreeWordsContainer/ThreeWordsContainer";
 
 
@@ -27,6 +28,7 @@ function App() {
       <div className="widget-container">
         <WeatherWidget latitude={latitude} longitude={longitude}/>
         <ThreeWordsContainer latitude={latitude} longitude={longitude} />
+        <WordOfDayWidget/>
       </div>
     </div>
   );
