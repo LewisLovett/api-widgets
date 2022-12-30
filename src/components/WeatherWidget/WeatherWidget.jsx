@@ -1,26 +1,18 @@
 import { useEffect, useState } from "react";
 import "./WeatherWidget.scss";
 
-const WeatherWidget = () => {
+const WeatherWidget = ({latitude,longitude}) => {
     const [localWeather, setLocalWeather] = useState();
-    const [latitude, setLatitude] = useState();
-    const [longitude, setLongitide] = useState();
+
     const [currentHour, setCurrentHour] = useState();
     const [hourMessage, setHourMessage] = useState();
 
 
-    const successCallback = (position) => {
-        setLatitude(position.coords.latitude);
-        setLongitide(position.coords.longitude);
-      };
-      
-      const errorCallback = (error) => {
-        console.log(error);
-      };
+
 
 
       const getWeather = async () => {
-        const apiKey = process.env.REACT_APP_API_KEY;
+        const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
         const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${latitude},${longitude}`;
         const res = await fetch(url);
         const data = await res.json();
@@ -34,7 +26,6 @@ const WeatherWidget = () => {
 
 
     useEffect(()=>{
-        navigator.geolocation.getCurrentPosition(successCallback,errorCallback);
         const date = new Date();
         setCurrentHour(date.getHours());
     }, [])
