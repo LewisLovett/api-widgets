@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import './App.css';
+import './App.scss';
 import WeatherWidget from './components/WeatherWidget/WeatherWidget';
-import MapWidget from "./components/MapWidget/MapWidget";
-import ThreeWordsWidget from "./components/ThreeWordsWidget/ThreeWordsWidget";
+import ThreeWordsContainer from "./containers/ThreeWordsContainer/ThreeWordsContainer";
+
 
 function App() {
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitide] = useState();
+
 
   const successCallback = (position) => {
     setLatitude(position.coords.latitude);
@@ -23,9 +24,10 @@ function App() {
   return (
     <div className="App">
       <h1>Hello</h1>
-      <WeatherWidget latitude={latitude} longitude={longitude}/>
-      <ThreeWordsWidget latitude={latitude} longitude={longitude}/>
-      <MapWidget  latitude={latitude} longitude={longitude}/>
+      <div className="widget-container">
+        <WeatherWidget latitude={latitude} longitude={longitude}/>
+        <ThreeWordsContainer latitude={latitude} longitude={longitude} />
+      </div>
     </div>
   );
 }

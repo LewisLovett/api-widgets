@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import "./ThreeWordsWidget.scss";
 
-const ThreeWordsWidget = ({latitude,longitude}) => {
+const ThreeWordsWidget = ({latitude,longitude, threeWords, setThreeWords}) => {
 
-    const [threeWords, setThreeWords] = useState();
+ 
 
       const getThreeWords = async () => {
         const apiKey = process.env.REACT_APP_3_WORDS_API_KEY;
-        const url = `https://api.what3words.com/v3/convert-to-3wa?coordinates=${longitude},${latitude}&key=${apiKey}`;
+        const url = `https://api.what3words.com/v3/convert-to-3wa?coordinates=${latitude},${longitude}&key=${apiKey}`;
         const res = await fetch(url);
         const data = await res.json();
         if(data){

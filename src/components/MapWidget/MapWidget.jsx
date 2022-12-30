@@ -3,7 +3,7 @@ import {What3wordsMap} from "@what3words/react-components";
 
 const API_KEY = process.env.REACT_APP_3_WORDS_API_KEY;
 const MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-const MapWidget = ({latitude,longitude}) => {
+const MapWidget = ({latitude,longitude, threeWords}) => {
 
     return (
       <What3wordsMap
@@ -22,7 +22,7 @@ const MapWidget = ({latitude,longitude}) => {
         current_location_control_position={9}
         disable_default_ui={true}
         map_type_id="satellite"
-        words="filled.count.soap"
+        words={threeWords}
       >
         <div slot="map" id="map" />
       </What3wordsMap>
