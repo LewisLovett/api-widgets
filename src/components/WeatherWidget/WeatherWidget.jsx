@@ -3,12 +3,10 @@ import "./WeatherWidget.scss";
 import ForecastDisplay from "../ForecastDisplay/ForecastDisplay";
 import ForecastContainer from "../../containers/ForecastContainer/ForecastContainer";
 const WeatherWidget = ({latitude,longitude}) => {
-    const [todayForecast, setTodayForecast] = useState({});
+    const [todayForecast, setTodayForecast] = useState();
     const [currentHour, setCurrentHour] = useState();
     const [hourMessage, setHourMessage] = useState();
-    const [weatherForecastDays, setWeatherForecastDays] = useState([]);
-
-
+    const [weatherForecastDays, setWeatherForecastDays] = useState();
 
 
       const getWeather = async () => {
@@ -17,24 +15,23 @@ const WeatherWidget = ({latitude,longitude}) => {
         const res = await fetch(url);
         const data = await res.json();
         if(data.current){
-          setTodayForecast({forecastDate:"Today",forecastText:data.current.condition.text,forecastIcon:data.current.condition.icon});
+          setTodayForecast({forecastTime:data.location.localtime,forecastText:data.current.condition.text,forecastIcon:data.current.condition.icon});
           populateForecast(data.forecast.forecastday[0].hour);
         }else{
           console.log("data not recived");
         }
+        
       }
       
       const populateForecast = (forecastData) =>{
-        
         const forecastInfo = forecastData.map((forecastDay)=>{
-          
-          const date = forecastDay.date;
+          const time = forecastDay.time;
           const text = forecastDay.condition.text;
           const icon = forecastDay.condition.icon;
-          return({forecastDate:date,forecastText:text,forecastIcon:icon})
+          return({forecastTime:time,forecastText:text,forecastIcon:icon})
           
         })
-       
+        
         setWeatherForecastDays(forecastInfo);
       }
 
@@ -60,8 +57,8 @@ const WeatherWidget = ({latitude,longitude}) => {
     return(
         <>
         <p>{hourMessage}</p>
-        <ForecastDisplay forecastDay={todayForecast}/>
-        <ForecastContainer forecastDays={weatherForecastDays}/>
+        {todayForecast&&<ForecastDisplay forecastDay={todayForecast}/>}
+        {weatherForecastDays&&currentHour&&<ForecastContainer forecastDays={weatherForecastDays}currentHour={currentHour}/>}
         </>
     )
 }

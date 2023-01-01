@@ -2,11 +2,11 @@ import "./ForecastDisplay.scss";
 
 const ForecastDisplay = ({forecastDay}) => {
     return(
-        <>
-        <p>{forecastDay.forecastDate}</p>
-        <p>{forecastDay.forecastText}</p>
-        <img src={forecastDay.forecastIcon}/>
-        </>
+        <div className="forcast-block">
+            <img src={forecastDay.forecastIcon}/>
+            <p>{forecastDay.forecastTime.substring(10,16)}</p>
+            <p>{forecastDay.forecastText}</p>
+        </div>
     )
 }
 export default ForecastDisplay

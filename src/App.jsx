@@ -26,8 +26,8 @@ function App() {
     <div className="App">
       <h1>Hello</h1>
       <div className="widget-container">
-        <WeatherWidget latitude={latitude} longitude={longitude}/>
-        <ThreeWordsContainer latitude={latitude} longitude={longitude} />
+        {latitude && <WeatherWidget latitude={latitude} longitude={longitude}/>}
+        {latitude && <ThreeWordsContainer latitude={latitude} longitude={longitude} />}
         <WordOfDayWidget/>
       </div>
     </div>
