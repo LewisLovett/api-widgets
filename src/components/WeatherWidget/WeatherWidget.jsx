@@ -1,29 +1,42 @@
 import { useEffect, useState } from "react";
 import "./WeatherWidget.scss";
-
+import ForecastDisplay from "../ForecastDisplay/ForecastDisplay";
+import ForecastContainer from "../../containers/ForecastContainer/ForecastContainer";
 const WeatherWidget = ({latitude,longitude}) => {
-    const [localWeather, setLocalWeather] = useState();
-
+    const [todayForecast, setTodayForecast] = useState({});
     const [currentHour, setCurrentHour] = useState();
     const [hourMessage, setHourMessage] = useState();
-
+    const [weatherForecastDays, setWeatherForecastDays] = useState([]);
 
 
 
 
       const getWeather = async () => {
         const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-        const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${latitude},${longitude}`;
+        const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}`;
         const res = await fetch(url);
         const data = await res.json();
         if(data.current){
-          setLocalWeather(data.current.condition.text);
+          setTodayForecast({forecastDate:"Today",forecastText:data.current.condition.text,forecastIcon:data.current.condition.icon});
+          populateForecast(data.forecast.forecastday[0].hour);
         }else{
           console.log("data not recived");
         }
       }
       
-
+      const populateForecast = (forecastData) =>{
+        
+        const forecastInfo = forecastData.map((forecastDay)=>{
+          
+          const date = forecastDay.date;
+          const text = forecastDay.condition.text;
+          const icon = forecastDay.condition.icon;
+          return({forecastDate:date,forecastText:text,forecastIcon:icon})
+          
+        })
+       
+        setWeatherForecastDays(forecastInfo);
+      }
 
     useEffect(()=>{
         const date = new Date();
@@ -47,7 +60,8 @@ const WeatherWidget = ({latitude,longitude}) => {
     return(
         <>
         <p>{hourMessage}</p>
-        <p>The Weather is currently {localWeather}</p>
+        <ForecastDisplay forecastDay={todayForecast}/>
+        <ForecastContainer forecastDays={weatherForecastDays}/>
         </>
     )
 }
