@@ -11,7 +11,7 @@ const WeatherWidget = ({latitude,longitude}) => {
 
       const getWeather = async () => {
         const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-        const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=7`;
+        const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=3`;
         const res = await fetch(url);
         const data = await res.json();
         if(data.current){
