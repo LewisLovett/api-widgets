@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import "./WordsOfDayContainer.scss";
 import WordOfDay from "../../components/WordOfDay/WordOfDay";
+import wordsOfData from '../../assets/wordsOfDay.json';
 
 const WordsOfDayContainer= () => {
-    const [wordsOfDayList, setWordsOfDayList] = useState();
+    const [wordsOfDayList, setWordsOfDayList] = useState([]);
     const [wordsOfDayComponents, setWordsOfDayComponents] = useState();
 
     const getWords = async () => {
@@ -20,13 +21,14 @@ const WordsOfDayContainer= () => {
         if(data){
             setWordsOfDayList(data);
         }else{
-          console.log("data not recived");
+            setWordsOfDayList(wordsOfData.words);
         }
       }
 
     useEffect(()=>{
-        getWords();
-    })
+        // getWords();
+        setWordsOfDayList(wordsOfData.words);
+    },[])
 
     useEffect(()=>{
         setWordsOfDayComponents(
@@ -40,7 +42,11 @@ const WordsOfDayContainer= () => {
 
     return(
         <>
-            {wordsOfDayComponents}
+            <h2>Words of the Day</h2>
+            <div className="words-container">
+                
+                {wordsOfDayComponents}
+            </div>
         </>
     )
 }

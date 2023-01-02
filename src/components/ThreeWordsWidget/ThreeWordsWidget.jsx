@@ -28,6 +28,7 @@ const ThreeWordsWidget = ({latitude,longitude, threeWords, setThreeWords}) => {
 
     return(
         <>
+        <h2>What3Words Map</h2>
         <p>The three words of your location are {threeWords}</p>
         </>
     )

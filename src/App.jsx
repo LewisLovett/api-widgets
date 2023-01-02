@@ -28,7 +28,7 @@ function App() {
       <div className="widget-container">
         {latitude && <WeatherWidget latitude={latitude} longitude={longitude}/>}
         {latitude && <ThreeWordsContainer latitude={latitude} longitude={longitude} />}
-        {/* <WordsOfDayContainer/> */}
+        <WordsOfDayContainer/>
       </div>
     </div>
   );

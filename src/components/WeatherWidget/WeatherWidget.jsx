@@ -58,6 +58,7 @@ const WeatherWidget = ({latitude,longitude}) => {
     return(
         <>
         {currentTime&&<p>{hourMessage}</p>}
+        <h2>Forecast</h2>
         {todayForecast&&<ForecastDisplay forecastDay={todayForecast}/>}
         {weatherForecastDays&&weatherForecastDays.map((weatherForecastDay)=>{return <ForecastContainer forecastDays={weatherForecastDay}currentTime={currentTime}/>})}
         </>
