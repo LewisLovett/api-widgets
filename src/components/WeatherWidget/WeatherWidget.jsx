@@ -11,12 +11,12 @@ const WeatherWidget = ({latitude,longitude}) => {
 
       const getWeather = async () => {
         const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-        const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}`;
+        const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&days=7`;
         const res = await fetch(url);
         const data = await res.json();
         if(data.current){
           setTodayForecast({forecastTime:data.location.localtime,forecastText:data.current.condition.text,forecastIcon:data.current.condition.icon});
-          populateForecast(data.forecast.forecastday[0].hour);
+          populateForecast(data.forecast.forecastday);
         }else{
           console.log("data not recived");
         }
@@ -24,15 +24,18 @@ const WeatherWidget = ({latitude,longitude}) => {
       }
       
       const populateForecast = (forecastData) =>{
-        const forecastInfo = forecastData.map((forecastDay)=>{
-          const time = forecastDay.time;
-          const text = forecastDay.condition.text;
-          const icon = forecastDay.condition.icon;
-          return({forecastTime:time,forecastText:text,forecastIcon:icon})
+        let forecastDays = [];
+        forecastData.forEach(forecastDay => {
           
-        })
-        
-        setWeatherForecastDays(forecastInfo);
+          const forecastHours = forecastDay.hour.map((forecastHour)=>{
+            const time = forecastHour.time;
+            const text = forecastHour.condition.text;
+            const icon = forecastHour.condition.icon;
+            return({forecastTime:time,forecastText:text,forecastIcon:icon}) 
+          })
+          forecastDays.push(forecastHours);
+        });
+        setWeatherForecastDays(forecastDays);
       }
 
     useEffect(()=>{
@@ -58,7 +61,7 @@ const WeatherWidget = ({latitude,longitude}) => {
         <>
         <p>{hourMessage}</p>
         {todayForecast&&<ForecastDisplay forecastDay={todayForecast}/>}
-        {weatherForecastDays&&currentHour&&<ForecastContainer forecastDays={weatherForecastDays}currentHour={currentHour}/>}
+        {weatherForecastDays&&weatherForecastDays.map((weatherForecastDay)=>{return <ForecastContainer forecastDays={weatherForecastDay}currentHour={currentHour}/>})}
         </>
     )
 }
