@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import './App.scss';
 import WeatherWidget from './components/WeatherWidget/WeatherWidget';
-import WordOfDayWidget from "./components/WordOfDayWidget/WordOfDayWidget";
 import ThreeWordsContainer from "./containers/ThreeWordsContainer/ThreeWordsContainer";
+import WordsOfDayContainer from "./containers/WordsOfDayContainer/WordsOfDayContainer";
 
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
       <div className="widget-container">
         {latitude && <WeatherWidget latitude={latitude} longitude={longitude}/>}
         {latitude && <ThreeWordsContainer latitude={latitude} longitude={longitude} />}
-        <WordOfDayWidget/>
+        {/* <WordsOfDayContainer/> */}
       </div>
     </div>
   );
