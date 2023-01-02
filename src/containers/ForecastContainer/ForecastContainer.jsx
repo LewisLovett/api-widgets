@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import "./ForecastContainer.scss";
 import ForecastDisplay from "../../components/ForecastDisplay/ForecastDisplay";
 
-const ForecastContainer = ({forecastDays,currentHour}) => {
+const ForecastContainer = ({forecastDays,currentTime}) => {
     const [forecastShown, setForecastShown] = useState(false);
     const forecastComponents = forecastDays.map((forecastDay)=>{
         const forcastDayHour = forecastDay.forecastTime.substring(11,13);
-       
-        if(currentHour<=forcastDayHour){
+        const forcastDayDate = forecastDay.forecastTime.substring(0,10);
+        const currentHour = currentTime.substring(11,13);
+        const currentDate = currentTime.substring(0,10);
+
+        if(currentHour<=forcastDayHour || forcastDayDate !== currentDate){
             return (<ForecastDisplay forecastDay={forecastDay}/>)
         }
     })

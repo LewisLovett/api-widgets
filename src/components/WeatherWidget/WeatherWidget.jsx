@@ -4,7 +4,7 @@ import ForecastDisplay from "../ForecastDisplay/ForecastDisplay";
 import ForecastContainer from "../../containers/ForecastContainer/ForecastContainer";
 const WeatherWidget = ({latitude,longitude}) => {
     const [todayForecast, setTodayForecast] = useState();
-    const [currentHour, setCurrentHour] = useState();
+    const [currentTime, setCurrentTime] = useState("");
     const [hourMessage, setHourMessage] = useState();
     const [weatherForecastDays, setWeatherForecastDays] = useState();
 
@@ -15,6 +15,7 @@ const WeatherWidget = ({latitude,longitude}) => {
         const res = await fetch(url);
         const data = await res.json();
         if(data.current){
+          setCurrentTime(data.location.localtime);
           setTodayForecast({forecastTime:data.location.localtime,forecastText:data.current.condition.text,forecastIcon:data.current.condition.icon});
           populateForecast(data.forecast.forecastday);
         }else{
@@ -38,30 +39,27 @@ const WeatherWidget = ({latitude,longitude}) => {
         setWeatherForecastDays(forecastDays);
       }
 
-    useEffect(()=>{
-        const date = new Date();
-        setCurrentHour(date.getHours());
-    }, [])
+ 
 
     useEffect(()=>{
         getWeather();
     }, [longitude])
 
     useEffect(()=>{
-      if(currentHour >= 18){
+      if(currentTime.substring(11,13) >= 18){
         setHourMessage("Good Evening");
-      }else if(currentHour >= 12){
+      }else if(currentTime.substring(11,13) >= 12){
         setHourMessage("Good Afternoon");
       }else{
         setHourMessage("Good Morning");
       }
-    }, [currentHour])
+    }, [currentTime])
 
     return(
         <>
-        <p>{hourMessage}</p>
+        {currentTime&&<p>{hourMessage}</p>}
         {todayForecast&&<ForecastDisplay forecastDay={todayForecast}/>}
-        {weatherForecastDays&&weatherForecastDays.map((weatherForecastDay)=>{return <ForecastContainer forecastDays={weatherForecastDay}currentHour={currentHour}/>})}
+        {weatherForecastDays&&weatherForecastDays.map((weatherForecastDay)=>{return <ForecastContainer forecastDays={weatherForecastDay}currentTime={currentTime}/>})}
         </>
     )
 }
